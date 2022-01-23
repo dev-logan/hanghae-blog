@@ -1,0 +1,57 @@
+const express = require('express')
+const Article = require('../schemas/article')
+const router = express.Router()
+
+// 게시글 목록
+router.get('/articles', async (req, res) => {
+    const articles = await Article.find({},{ password: 0 })
+    res.json({
+        articles
+    })
+})
+
+// 게시글 상세 조회
+router.get('/articles/:_id', async (req, res) => {
+    const { _id } = req.params
+    const [article] = await Article.find({ _id },{ password: 0 })
+    res.json({
+        article
+    })
+})
+
+// 게시글 작성
+router.post('/articles', async (req, res) => {
+    const { author, password, title, content, date } = req.body
+    await Article.create({ author, password, title, content, date })
+    res.status(201).json({ success: true })
+})
+
+// 게시글 수정
+router.put('/articles/:_id', async (req, res) => {
+    const { _id } = req.params
+    const { password, title, content } = req.body
+    // password가 틀리면 메시지 보냄
+    const [article] = await Article.find({ _id },{ password: 1 })
+    if (article.password != password) {
+        return res.status(400).json({ success: false, errorMessage: '잘못된 비밀번호 입니다.' })
+    } else {
+        await Article.updateOne({ _id, password }, {$set: { title, content }})
+    }
+    res.json({ success: true })
+})
+
+// 게시글 삭제
+router.delete('/articles/:_id', async (req, res) => {
+    const { _id } = req.params
+    const { password } = req.body
+    // password가 틀리면 메시지 보냄
+    const [article] = await Article.find({ _id },{ password: 1 })
+    if (article.password != password) {
+        return res.status(400).json({ success: false, errorMessage: '잘못된 비밀번호 입니다.' })
+    } else {
+        await Article.deleteOne({ _id, password })
+    }
+    res.json({ success: true })
+})
+
+module.exports = router
