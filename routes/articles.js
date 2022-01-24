@@ -4,7 +4,7 @@ const router = express.Router()
 
 // 게시글 목록
 router.get('/articles', async (req, res) => {
-    const articles = await Article.find({},{ password: 0 })
+    const articles = await Article.find({},{ password: 0 }).sort({ '_id': -1 })
     res.json({
         articles
     })
