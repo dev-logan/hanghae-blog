@@ -8,7 +8,7 @@ connect()
 const articlesRouter = require('./routes/articles')
 
 //  미들웨어
-// app.use(express.static('static'))
+app.use(express.static('static'))
 app.use(express.json())
 app.use('/api', [articlesRouter])
 
