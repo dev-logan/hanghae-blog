@@ -46,11 +46,11 @@ router.put('/articles/:_id', async (req, res) => {
     // password가 틀리면 메시지 보냄
     const [article] = await Article.find({ _id },{ password: 1 })
     if (article.password != password) {
-        return res.status(400).json({ success: false, errorMessage: '잘못된 비밀번호 입니다.' })
+        return res.status(400).json({ success: false })
     } else {
         await Article.updateOne({ _id, password }, {$set: { title, content }})
+        res.json({ success: true, message: '게시글이 수정되었습니다.' })
     }
-    res.json({ success: true })
 })
 
 // 게시글 삭제
@@ -60,11 +60,11 @@ router.delete('/articles/:_id', async (req, res) => {
     // password가 틀리면 메시지 보냄
     const [article] = await Article.find({ _id },{ password: 1 })
     if (article.password != password) {
-        return res.status(400).json({ success: false, errorMessage: '잘못된 비밀번호 입니다.' })
+        return res.status(400).json({ success: false })
     } else {
         await Article.deleteOne({ _id, password })
     }
-    res.json({ success: true })
+    res.json({ success: true, message: '게시글이 삭제되었습니다.' })
 })
 
 module.exports = router
