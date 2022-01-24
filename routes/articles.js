@@ -21,9 +21,22 @@ router.get('/articles/:_id', async (req, res) => {
 
 // 게시글 작성
 router.post('/articles', async (req, res) => {
-    const { author, password, title, content, date } = req.body
+    // 오늘 날짜 입력
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = today.getMonth() + 1
+    const day = today.getDate()
+
+    let date
+    if (month < 10) {
+        date = year + '-' + '0' + month + '-' + day
+    } else {
+        date = year + '-' + month + '-' + day
+    }
+
+    const { author, password, title, content } = req.body
     await Article.create({ author, password, title, content, date })
-    res.status(201).json({ success: true })
+    res.status(201).json({ success: true, message: '작성 완료되었습니다.' })
 })
 
 // 게시글 수정
