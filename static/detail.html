@@ -12,7 +12,42 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
     <title>항해일지</title>
+
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const articleId = urlParams.get("articleId");
+
+        $(document).ready(function () {
+            getDetail()
+        })
+
+        function getDetail() {
+            $.ajax({
+                type: "GET",
+                url: `/api/articles/${articleId}`,
+                success: function (response) {
+                    const article = response.article
+
+                    const title = article.title
+                    const author = article.author
+                    const date = article.date
+                    const content = article.content
+
+                    $('#title').text(title)
+                    $('#author').text(author)
+                    $('#date').text(date)
+                    $('#content').text(content)
+                }
+            })
+        }
+    </script>
+
 </head>
 
 <body>
@@ -37,13 +72,13 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" id="title">
                 첫 글입니다
             </div>
-            <div class="col-sm">
+            <div class="col-sm" id="author">
                 김정호
             </div>
-            <div class="col-sm">
+            <div class="col-sm" id="date">
                 2022-01-24
             </div>
         </div>
@@ -51,7 +86,7 @@
 
     <div class="container" style="margin-top: 15px;">
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm" id="content">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
                 ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
