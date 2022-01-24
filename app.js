@@ -7,9 +7,15 @@ connect()
 
 const articlesRouter = require('./routes/articles')
 
+//  bodyParser
+// const bodyParser = require('body-parser')
+// app.use(bodyParser.json())
+
 //  미들웨어
 app.use(express.static('static'))
 app.use(express.json())
+app.use(express.urlencoded())
+
 app.use('/api', [articlesRouter])
 
 //  서버 켜기

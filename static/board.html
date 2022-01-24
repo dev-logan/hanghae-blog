@@ -12,7 +12,40 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
     <title>항해일지</title>
+
+    <script>
+        $(document).ready(function () {
+            getArticles()
+        })
+
+        function getArticles() {
+            $('#articles').empty()
+            $.ajax({
+                type: "GET",
+                url: "/api/articles",
+                success: function (response) {
+                    const articles = response.articles
+                    for (const article of articles) {
+                        const id = article._id
+                        const title = article.title
+                        const author = article.author
+                        const date = article.date
+                        const temp_html = `<tr id="${id}">
+                                            <td><a href="/detail.html?articleId=${id}">${title}</a></td>
+                                            <td>${author}</td>
+                                            <td>${date}</td>
+                                        </tr>`
+                        $('#articles').append(temp_html)
+                    }
+                }
+            })
+        }
+    </script>
 
 </head>
 
@@ -47,7 +80,7 @@
                             <th scope="col">작성일</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="articles">
                         <tr>
                             <td>첫 글입니다</td>
                             <td>김정호</td>
@@ -68,7 +101,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-dark">글쓰기</button>
+                <button type="button" class="btn btn-dark" onclick="location.href='/write.html'">글쓰기</button>
             </div>
         </div>
     </div>
