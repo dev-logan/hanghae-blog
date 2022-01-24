@@ -12,7 +12,29 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
     <title>글 작성하기</title>
+
+    <script>
+        function postArticle() {
+            const title = $('#title').val()
+            const author = $('#author').val()
+            const password = $('#password').val()
+            const content = $('#content').val()
+            $.ajax({
+                type: "POST",
+                url: "/api/articles",
+                data: { title, author, password, content },
+                success: function (response) {
+                    alert(response.message)
+                    window.location.href = '/board.html'
+                }
+            })
+        }
+    </script>
 </head>
 
 <body>
@@ -40,10 +62,10 @@
             <div class="col-sm">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon3">제목</span>
+                        <span class="input-group-text" id="basic-addon3">제목</span>
                     </div>
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                  </div>
+                    <input type="text" class="form-control" id="title" aria-describedby="basic-addon3">
+                </div>
             </div>
         </div>
     </div>
@@ -53,18 +75,18 @@
             <div class="col-sm">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon3">닉네임</span>
+                        <span class="input-group-text" id="basic-addon3">닉네임</span>
                     </div>
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                  </div>
+                    <input type="text" class="form-control" id="author" aria-describedby="basic-addon3">
+                </div>
             </div>
             <div class="col-sm">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon3">비밀번호</span>
+                        <span class="input-group-text" id="basic-addon3">비밀번호</span>
                     </div>
-                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                  </div>
+                    <input type="text" class="form-control" id="password" aria-describedby="basic-addon3">
+                </div>
             </div>
         </div>
     </div>
@@ -76,8 +98,8 @@
                     <!-- <div class="input-group-prepend">
                       <span class="input-group-text">글쓰기</span>
                     </div> -->
-                    <textarea class="form-control" aria-label="With textarea"></textarea>
-                  </div>
+                    <textarea class="form-control" aria-label="With textarea" id="content"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -85,7 +107,7 @@
     <div class="container" style="margin-top: 15px;">
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-dark">완료</button>
+                <button type="button" class="btn btn-dark" onclick="postArticle()">완료</button>
             </div>
         </div>
     </div>
