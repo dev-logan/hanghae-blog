@@ -31,6 +31,9 @@
                 success: function (response) {
                     alert(response.message)
                     window.location.href = '/board.html'
+                },
+                error: function (respond) {
+                    alert('입력을 확인해주세요.')
                 }
             })
         }
@@ -40,7 +43,7 @@
 <body>
     <div class="header">
         <a href="/board.html">
-            <h1>항해일지</h1>
+            <h1>김정호 항해일지</h1>
         </a>
     </div>
 

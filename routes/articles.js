@@ -33,8 +33,10 @@ router.post('/articles', async (req, res) => {
     } else {
         date = year + '-' + month + '-' + day
     }
-
     const { author, password, title, content } = req.body
+    if (!(author && password && title && content)) {
+        return res.status(400).json({ success: false })
+    }
     await Article.create({ author, password, title, content, date })
     res.status(201).json({ success: true, message: '작성 완료되었습니다.' })
 })
@@ -43,6 +45,9 @@ router.post('/articles', async (req, res) => {
 router.put('/articles/:_id', async (req, res) => {
     const { _id } = req.params
     const { password, title, content } = req.body
+    if (!(password && title && content)) {
+        return res.status(400).json({ success: false })
+    }
     // password가 틀리면 메시지 보냄
     const [article] = await Article.find({ _id },{ password: 1 })
     if (article.password != password) {
