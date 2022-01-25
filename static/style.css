@@ -17,3 +17,11 @@ textarea.form-control {
 .title {
     font-weight: bold;
 }
+
+.detail_header {
+    margin-bottom: 30px;
+}
+
+.detail_buttons {
+    margin-bottom: 30px;
+}
