@@ -106,7 +106,7 @@
                 url: "/api/comments",
                 data: { author, password, content, articleId },
                 success: function (response) {
-                    alert(response.message)
+                    // alert(response.message)
                     getComments()
                     $('#comment_author').val('')
                     $('#comment_password').val('')
