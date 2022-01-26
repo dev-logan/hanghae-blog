@@ -30,3 +30,7 @@ textarea.form-control {
 pre {
     font-size: 1rem;
 }
+
+.countComments {
+    color: dimgray;
+}

@@ -67,4 +67,11 @@ router.delete('/comments/:commentId', async (req, res) => {
     }
 })
 
+// 특정 게시글의 댓글 수 세기
+router.get('/articles/:articleId/comments', async (req, res) => {
+    const { articleId } = req.params
+    const comments = await Comment.find({ articleId })
+    res.json({ count: comments.length })
+})
+
 module.exports = router
