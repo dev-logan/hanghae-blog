@@ -1,5 +1,6 @@
 const express = require('express')
 const connect = require('./schemas')
+const cors = require('cors')
 const app = express()
 const port = 3000
 
@@ -12,6 +13,7 @@ const articlesRouter = require('./routes/articles')
 // app.use(bodyParser.json())
 
 //  미들웨어
+app.use(cors())
 app.use(express.static('static'))
 app.use(express.json())
 app.use(express.urlencoded())
