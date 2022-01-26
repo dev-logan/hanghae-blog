@@ -25,6 +25,7 @@
 
         $(document).ready(function () {
             getDetail()
+            getComments()
         })
 
         function getDetail() {
@@ -66,6 +67,77 @@
                 }
             })
         }
+
+        function getComments() {
+            $('#comments').empty()
+            $.ajax({
+                type: "GET",
+                url: `/api/comments/${articleId}`,
+                success: function (response) {
+                    const comments = response.comments
+
+                    for (const comment of comments) {
+                        const author = comment.author
+                        const content = comment.content
+                        const date = comment.date
+                        const commentId = comment._id
+
+                        const temp_html = `<tr id="${commentId}">
+                                            <td>${author}</td>
+                                            <td>${content}</td>
+                                            <td>${date}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-light">수정</button>
+                                                <button type="button" class="btn btn-light" onclick="deleteComment('${commentId}')">삭제</button>
+                                            </td>
+                                        </tr>`
+                        $('#comments').append(temp_html)
+                    }
+                }
+            })
+        }
+
+        function postComment() {
+            const author = $('#comment_author').val()
+            const password = $('#comment_password').val()
+            const content = $('#comment_content').val()
+            $.ajax({
+                type: "POST",
+                url: "/api/comments",
+                data: { author, password, content, articleId },
+                success: function (response) {
+                    alert(response.message)
+                    getComments()
+                }
+            })
+        }
+        
+        //  작업중
+        function editComment(commentId) {
+            $.ajax({
+                type: "PUT",
+                url: `/api/comments/${commentId}`,
+                data: { password, content },
+                success: function (response) {
+                    alert(response.message)
+                    getComments()
+                }
+            })
+        }
+
+        function deleteComment(commentId) {
+            const password = prompt('비밀번호를 입력하세요.')
+            $.ajax({
+                type: "DELETE",
+                url: `/api/comments/${commentId}`,
+                data: { password },
+                success: function (response) {
+                    alert(response.message)
+                    getComments()
+                }
+            })
+        }
+
     </script>
 
 </head>
@@ -114,6 +186,60 @@
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim id est laborum. -->
             </pre>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <table class="table table-striped table-hover">
+                    <tbody id="comments">
+                        <tr>
+                            <td>작성자 1</td>
+                            <td>내용 1</td>
+                            <td>날짜 1</td>
+                            <td>
+                                <button type="button" class="btn btn-light">수정</button>
+                                <button type="button" class="btn btn-light">삭제</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>작성자 2</td>
+                            <td>내용 2</td>
+                            <td>날짜 2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">닉네임</span>
+                    <input type="text" class="form-control" placeholder="" aria-label="Username"
+                        aria-describedby="basic-addon1" id="comment_author">
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">비밀번호</span>
+                    <input type="text" class="form-control" placeholder="" aria-label="Username"
+                        aria-describedby="basic-addon1" id="comment_password">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="댓글을 입력해주세요." aria-label="Recipient's username"
+                        aria-describedby="button-addon2" id="comment_content">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="postComment()">등록</button>
+                </div>
             </div>
         </div>
     </div>
