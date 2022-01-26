@@ -34,21 +34,21 @@ router.get('/comments/:articleId', async (req, res) => {
 })
 
 //  댓글 수정
-router.put('/comments/:commentId', async (req, res) => {
-    const { _id } = req.params
-    const { password, content } = req.body
-    if (!(password && content)) {
-        return res.status(400).json({ success: false })
-    }
-    // password가 틀리면 메시지 보냄
-    const [comment] = await Comment.find({ _id },{ password: 1 })
-    if (comment.password != password) {
-        return res.status(400).json({ success: false })
-    } else {
-        await Comment.updateOne({ _id, password }, {$set: { content }})
-        res.json({ success: true, message: '댓글이 수정되었습니다.' })
-    }
-})
+// router.put('/comments/:commentId', async (req, res) => {
+//     const { _id } = req.params
+//     const { password, content } = req.body
+//     if (!(password && content)) {
+//         return res.status(400).json({ success: false })
+//     }
+//     // password가 틀리면 메시지 보냄
+//     const [comment] = await Comment.find({ _id },{ password: 1 })
+//     if (comment.password != password) {
+//         return res.status(400).json({ success: false })
+//     } else {
+//         await Comment.updateOne({ _id, password }, {$set: { content }})
+//         res.json({ success: true, message: '댓글이 수정되었습니다.' })
+//     }
+// })
 
 //  댓글 삭제
 router.delete('/comments/:commentId', async (req, res) => {
