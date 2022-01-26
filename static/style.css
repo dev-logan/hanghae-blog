@@ -16,6 +16,7 @@ textarea.form-control {
 
 .title {
     font-weight: bold;
+    font-size: 1rem;
 }
 
 .detail_header {
@@ -24,4 +25,8 @@ textarea.form-control {
 
 .detail_buttons {
     margin-bottom: 30px;
+}
+
+pre {
+    font-size: 1rem;
 }
