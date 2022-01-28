@@ -61,15 +61,60 @@
             })
         }
 
+        function logout() {
+            if (localStorage.getItem("token")) {
+                alert('로그아웃 완료!')
+                localStorage.clear();
+            } else {
+                alert('로그인 중이 아닙니다.')
+            }
+        }
+
+        function toWrite() {
+            if (localStorage.getItem("token")) {
+                window.location.href='/write.html'
+            } else {
+                alert('로그인 해주세요!')
+            }
+        }
+
+        function toSignup() {
+            if (localStorage.getItem("token")) {
+                alert('이미 로그인 중입니다.')
+            } else {
+                window.location.href='/signup.html'
+            }
+        }
+
+        function toLogin() {
+            if (localStorage.getItem("token")) {
+                alert('이미 로그인 중입니다.')
+            } else {
+                window.location.href='/login.html'
+            }
+        }
+
     </script>
 
 </head>
 
 <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <a href="/board.html">
+                    <h1>김정호 항해일지</h1>
+                </a>
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-dark" onclick="toSignup()">회원가입</button>
+                <button type="button" class="btn btn-dark" onclick="toLogin()">로그인</button>
+                <button type="button" class="btn btn-dark" onclick="logout()">로그아웃</button>
+            </div>
+        </div>
+    </div>
     <div class="header">
-        <a href="/board.html">
-            <h1>김정호 항해일지</h1>
-        </a>
+
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -117,7 +162,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="location.href='/write.html'">글쓰기</button>
+                <button type="button" class="btn btn-dark" onclick="toWrite()">글쓰기</button>
             </div>
         </div>
     </div>

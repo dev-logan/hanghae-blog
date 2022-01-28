@@ -49,10 +49,18 @@
         }
 
         function toEdit() {
-            window.location.href = `/edit.html?articleId=${articleId}`
+            if (localStorage.getItem("token")) {
+                window.location.href = `/edit.html?articleId=${articleId}`
+            } else {
+                alert('로그인 해주세요!')
+            }
         }
 
         function toDelete() {
+            if (!localStorage.getItem("token")) {
+                alert('로그인 해주세요!')
+                return
+            }
             const password = prompt("비밀번호를 입력하세요.")
             $.ajax({
                 type: "DELETE",
