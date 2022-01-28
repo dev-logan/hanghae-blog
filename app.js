@@ -8,6 +8,7 @@ connect()
 
 const articlesRouter = require('./routes/articles')
 const commentsRouter = require('./routes/comments')
+const usersRouter = require('./routes/users')
 
 //  bodyParser
 // const bodyParser = require('body-parser')
@@ -19,7 +20,7 @@ app.use(express.static('static'))
 app.use(express.json())
 app.use(express.urlencoded())
 
-app.use('/api', [articlesRouter, commentsRouter])
+app.use('/api', [articlesRouter, commentsRouter, usersRouter])
 
 //  서버 켜기
 app.listen(port, () => {
