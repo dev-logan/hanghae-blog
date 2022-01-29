@@ -117,7 +117,7 @@
                             temp_html = `<tr id="${commentId}">
                                             <td>${author}</td>
                                             <td><input/ style="width: -webkit-fill-available;" id="${commentContentInputId}"><span id="${commentContentId}">${content}</span></td>
-                                            <td>${date}</td>
+                                            <td><span class="float-end">${date}</span></td>
                                             <td>
                                                 <div class="float-end">
                                                 <button type="button" class="btn btn-light" id="${commentEditButtonId}" onclick="editComment('${commentId}')">수정</button>
@@ -130,7 +130,7 @@
                             temp_html = `<tr id="${commentId}">
                                             <td>${author}</td>
                                             <td>${content}</td>
-                                            <td>${date}</td>
+                                            <td><span class="float-end">${date}</span></td>
                                             <td></td>
                                         </tr>`
                         }
@@ -248,10 +248,10 @@
             <div class="col-sm title" id="title">
                 <!-- 첫 글입니다 -->
             </div>
-            <div class="col-sm" id="author">
+            <div class="col-sm text-end" id="author">
                 <!-- 김정호 -->
             </div>
-            <div class="col-sm" id="date">
+            <div class="col-sm text-end" id="date">
                 <!-- 2022-01-24 -->
             </div>
         </div>
