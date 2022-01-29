@@ -74,7 +74,7 @@
 
         function toWrite() {
             if (localStorage.getItem("token")) {
-                window.location.href='/write.html'
+                window.location.href = '/write.html'
             } else {
                 alert('로그인 해주세요!')
             }
@@ -84,7 +84,7 @@
             if (localStorage.getItem("token")) {
                 alert('이미 로그인 중입니다.')
             } else {
-                window.location.href='/signup.html'
+                window.location.href = '/signup.html'
             }
         }
 
@@ -92,7 +92,7 @@
             if (localStorage.getItem("token")) {
                 alert('이미 로그인 중입니다.')
             } else {
-                window.location.href='/login.html'
+                window.location.href = '/login.html'
             }
         }
 
@@ -123,9 +123,11 @@
                 </a>
             </div>
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="toSignup()">회원가입</button>
-                <button type="button" class="btn btn-dark" onclick="toLogin()">로그인</button>
-                <button type="button" class="btn btn-dark" onclick="logout()">로그아웃</button>
+                <nav class="float-end">
+                    <button type="button" class="btn btn-dark" onclick="toSignup()">회원가입</button>
+                    <button type="button" class="btn btn-dark" onclick="toLogin()">로그인</button>
+                    <button type="button" class="btn btn-dark" onclick="logout()">로그아웃</button>
+                </nav>
             </div>
         </div>
     </div>
@@ -152,11 +154,11 @@
             </div>
         </div>
     </div>
-    
+
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="toWrite()">글쓰기</button>
+                <button type="button" class="btn btn-dark float-end" onclick="toWrite()">글쓰기</button>
             </div>
         </div>
     </div>
@@ -194,7 +196,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-dark" onclick="toWrite()">글쓰기</button>
+                <button type="button" class="btn btn-dark float-end" onclick="toWrite()">글쓰기</button>
             </div>
         </div>
     </div>

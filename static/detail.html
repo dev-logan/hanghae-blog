@@ -119,9 +119,11 @@
                                             <td><input/ style="width: -webkit-fill-available;" id="${commentContentInputId}"><span id="${commentContentId}">${content}</span></td>
                                             <td>${date}</td>
                                             <td>
+                                                <div class="float-end">
                                                 <button type="button" class="btn btn-light" id="${commentEditButtonId}" onclick="editComment('${commentId}')">수정</button>
                                                 <button type="button" class="btn btn-light" id="${commentEditConfirmId}" onclick="editCommentConfirm('${commentId}')">확인</button>
                                                 <button type="button" class="btn btn-light" onclick="deleteComment('${commentId}')">삭제</button>
+                                                </div>
                                             </td>
                                         </tr>`
                         } else {
@@ -327,8 +329,10 @@
     <div class="container detail_buttons">
         <div class="row">
             <div class="col-sm" style="margin-top: 15px;">
+                <div class="float-end">
                 <button type="button" class="btn btn-dark" onclick="toEdit()">수정</button>
                 <button type="button" class="btn btn-dark" onclick="toDelete()">삭제</button>
+            </div>
             </div>
         </div>
     </div>
