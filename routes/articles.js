@@ -77,7 +77,7 @@ router.delete('/articles/:_id', authMiddleware, async (req, res) => {
     if (!article) {
         return res.status(400).send({ errorMessage: '본인의 글이 아닙니다.' })
     }
-    await Article.deleteOne({ _id })
+    await Article.deleteOne({ _id, author })
     res.json({ success: true, message: '게시글이 삭제되었습니다.' })
 })
 

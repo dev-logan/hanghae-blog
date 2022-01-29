@@ -22,6 +22,18 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const articleId = urlParams.get("articleId");
+        let nickname
+
+        $.ajax({
+            type: "GET",
+            url: "/api/users/me",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            success: function (response) {
+                nickname = response.nickname
+            }
+        })
 
         $(document).ready(function () {
             getDetail()
@@ -64,7 +76,7 @@
             // const password = prompt("비밀번호를 입력하세요.")
             const result = confirm('정말 삭제하시겠어요?')
             if (!result) { return }
-            
+
             $.ajax({
                 type: "DELETE",
                 url: `/api/articles/${articleId}`,
@@ -96,59 +108,108 @@
                         const content = comment.content
                         const date = comment.date
                         const commentId = comment._id
-
-                        const temp_html = `<tr id="${commentId}">
+                        const commentEditButtonId = commentId + '_EditButton'
+                        const commentContentInputId = commentId + '_ContentInput'
+                        const commentContentId = commentId + '_Content'
+                        const commentEditConfirmId = commentId + '_EditConfirm'
+                        let temp_html
+                        if (author === nickname) {
+                            temp_html = `<tr id="${commentId}">
                                             <td>${author}</td>
-                                            <td>${content}</td>
+                                            <td><input/ style="width: -webkit-fill-available;" id="${commentContentInputId}"><span id="${commentContentId}">${content}</span></td>
                                             <td>${date}</td>
                                             <td>
-                                                <!--<button type="button" class="btn btn-light">수정</button>-->
+                                                <button type="button" class="btn btn-light" id="${commentEditButtonId}" onclick="editComment('${commentId}')">수정</button>
+                                                <button type="button" class="btn btn-light" id="${commentEditConfirmId}" onclick="editCommentConfirm('${commentId}')">확인</button>
                                                 <button type="button" class="btn btn-light" onclick="deleteComment('${commentId}')">삭제</button>
                                             </td>
                                         </tr>`
+                        } else {
+                            temp_html = `<tr id="${commentId}">
+                                            <td>${author}</td>
+                                            <td>${content}</td>
+                                            <td>${date}</td>
+                                            <td></td>
+                                        </tr>`
+                        }
+
                         $('#comments').append(temp_html)
+                        $(`#${commentContentInputId}`).hide()
+                        $(`#${commentEditConfirmId}`).hide()
                     }
                 }
             })
         }
 
         function postComment() {
-            const author = $('#comment_author').val()
-            const password = $('#comment_password').val()
             const content = $('#comment_content').val()
             $.ajax({
                 type: "POST",
                 url: "/api/comments",
-                data: { author, password, content, articleId },
+                data: { content, articleId },
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
                 success: function (response) {
                     // alert(response.message)
                     getComments()
-                    $('#comment_author').val('')
-                    $('#comment_password').val('')
                     $('#comment_content').val('')
+                },
+                error: function (xhr) {
+                    const err = eval("(" + xhr.responseText + ")");
+                    alert(err.errorMessage)
                 }
             })
         }
 
-        //  작업중
-        // function editComment(commentId) {
-        //     $.ajax({
-        //         type: "PUT",
-        //         url: `/api/comments/${commentId}`,
-        //         data: { password, content },
-        //         success: function (response) {
-        //             alert(response.message)
-        //             getComments()
-        //         }
-        //     })
-        // }
+        //  댓글 수정
+        function editComment(commentId) {
+            const commentEditButtonId = commentId + '_EditButton'
+            const commentContentInputId = commentId + '_ContentInput'
+            const commentContentId = commentId + '_Content'
+            const commentEditConfirmId = commentId + '_EditConfirm'
+
+            const content = $(`#${commentContentId}`).text()
+            $(`#${commentContentInputId}`).val(content)
+
+            $(`#${commentContentInputId}`).show()
+            $(`#${commentEditConfirmId}`).show()
+            $(`#${commentEditButtonId}`).hide()
+            $(`#${commentContentId}`).hide()
+        }
+
+        function editCommentConfirm(commentId) {
+            const commentContentInputId = commentId + '_ContentInput'
+            const content = $(`#${commentContentInputId}`).val()
+            $.ajax({
+                type: "PUT",
+                url: `/api/comments/${commentId}`,
+                data: { content },
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                success: function (response) {
+                    getComments()
+                },
+                error: function (xhr) {
+                    const err = eval("(" + xhr.responseText + ")");
+                    alert(err.errorMessage)
+                }
+            })
+        }
 
         function deleteComment(commentId) {
-            const password = prompt('비밀번호를 입력하세요.')
+            // const password = prompt('비밀번호를 입력하세요.')
+            const result = confirm('정말로 삭제하시겠습니까?')
+            if (!result) {
+                return
+            }
             $.ajax({
                 type: "DELETE",
                 url: `/api/comments/${commentId}`,
-                data: { password },
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
                 success: function (response) {
                     alert(response.message)
                     getComments()
@@ -231,7 +292,7 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-sm">
                 <div class="input-group mb-3">
@@ -248,7 +309,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="container">
         <div class="row">
@@ -256,7 +317,8 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="댓글을 입력해주세요." aria-label="Recipient's username"
                         aria-describedby="button-addon2" id="comment_content">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="postComment()">등록</button>
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"
+                        onclick="postComment()">등록</button>
                 </div>
             </div>
         </div>
