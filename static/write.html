@@ -22,13 +22,14 @@
 
         function postArticle() {
             const title = $('#title').val()
-            const author = $('#author').val()
-            const password = $('#password').val()
             const content = $('#content').val()
             $.ajax({
                 type: "POST",
                 url: "/api/articles",
-                data: { title, author, password, content },
+                data: { title, content },
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
                 success: function (response) {
                     alert(response.message)
                     window.location.href = '/board.html'
@@ -64,12 +65,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">제목</span>
-                    </div>
-                    <input type="text" class="form-control" id="title" aria-describedby="basic-addon3">
-                </div>
+                <h2>글쓰기</h2>
             </div>
         </div>
     </div>
@@ -79,17 +75,9 @@
             <div class="col-sm">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">닉네임</span>
+                        <span class="input-group-text" id="basic-addon3">제목</span>
                     </div>
-                    <input type="text" class="form-control" id="author" aria-describedby="basic-addon3">
-                </div>
-            </div>
-            <div class="col-sm">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">비밀번호</span>
-                    </div>
-                    <input type="text" class="form-control" id="password" aria-describedby="basic-addon3">
+                    <input type="text" class="form-control" id="title" aria-describedby="basic-addon3">
                 </div>
             </div>
         </div>

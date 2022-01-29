@@ -61,17 +61,24 @@
                 alert('로그인 해주세요!')
                 return
             }
-            const password = prompt("비밀번호를 입력하세요.")
+            // const password = prompt("비밀번호를 입력하세요.")
+            const result = confirm('정말 삭제하시겠어요?')
+            if (!result) { return }
+            
             $.ajax({
                 type: "DELETE",
                 url: `/api/articles/${articleId}`,
-                data: { password },
+                // data: { password },
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
                 success: function (response) {
                     alert(response.message)
                     window.location.href = '/board.html'
                 },
-                error: function (response) {
-                    alert('잘못된 비밀번호 입니다.')
+                error: function (xhr) {
+                    const err = eval("(" + xhr.responseText + ")");
+                    alert(err.errorMessage)
                 }
             })
         }

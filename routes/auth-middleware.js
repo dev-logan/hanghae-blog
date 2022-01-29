@@ -13,7 +13,6 @@ module.exports = (req, res, next) => {
 
     try {
         const { nickname } = jwt.verify(tokenValue, 'kim-jeong-ho-5901')
-
         User.find({ nickname }).then(user => {
             res.locals.user = user
             next()

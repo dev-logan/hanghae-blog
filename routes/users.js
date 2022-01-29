@@ -3,6 +3,7 @@ const User = require('../schemas/user')
 const router = express.Router()
 const Joi = require('joi')
 const jwt = require('jsonwebtoken')
+const authMiddleware = require('./auth-middleware')
 
 //  회원 가입 양식
 const postUsersSchema = Joi.object({
@@ -70,6 +71,14 @@ router.post("/auth", async (req, res) => {
 
     const token = jwt.sign({ nickname: user.nickname }, 'kim-jeong-ho-5901')
     res.send({ token })
+})
+
+//  사용자 정보 조회
+router.get('/users/me', authMiddleware, async (req, res) => {
+    const { user } = res.locals
+    res.send({
+        nickname: user.nickname
+    })
 })
 
 module.exports = router
