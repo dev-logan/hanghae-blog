@@ -8,14 +8,13 @@ router.post('/comments', authMiddleware, async (req, res) => {
     // 오늘 날짜 입력
     const today = new Date()
     const year = today.getFullYear()
-    const month = today.getMonth() + 1
-    const day = today.getDate()
-    let date
-    if (month < 10) {
-        date = year + '-' + '0' + month + '-' + day
-    } else {
-        date = year + '-' + month + '-' + day
-    }
+    let month = today.getMonth() + 1
+    let day = today.getDate()
+
+    month = month < 10 ? '0' + month : month
+    day = day < 10 ? '0' + day : day
+
+    let date = year + '-' + month + '-' + day
 
     const password = 0
     const author = res.locals.user[0].nickname
