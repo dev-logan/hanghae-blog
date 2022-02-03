@@ -43,6 +43,7 @@
                     for (const article of articles) {
                         const id = article._id
                         const comments_id = id + '_comments'
+                        const likes_id = id + '_likes'
                         const title = article.title
                         const author = article.author
                         const date = article.date
@@ -50,9 +51,11 @@
                                             <td><a href="/detail.html?articleId=${id}">${title}<span class="countComments" id="${comments_id}"></span></a></td>
                                             <td>${author}</td>
                                             <td>${date}</td>
+                                            <td id="${likes_id}"></td>
                                         </tr>`
                         $('#articles').append(temp_html)
                         countComments(id)
+                        countLikes(id)
                     }
                 }
             })
@@ -67,6 +70,17 @@
                     if (count > 0) {
                         $(`#${articleId}_comments`).text(` [${count}]`)
                     }
+                }
+            })
+        }
+
+        function countLikes(articleId) {
+            $.ajax({
+                type: "GET",
+                url: `/api/likes/${articleId}/count`,
+                success: function (response) {
+                    const count = response.count
+                    $(`#${articleId}_likes`).text(count)
                 }
             })
         }
@@ -182,6 +196,7 @@
                             <th scope="col">제목</th>
                             <th scope="col">글쓴이</th>
                             <th scope="col">작성일</th>
+                            <th scope="col">좋아요</th>
                         </tr>
                     </thead>
                     <tbody id="articles">
