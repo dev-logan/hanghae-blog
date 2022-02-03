@@ -22,6 +22,15 @@
         $(document).ready(function () {
             getArticles()
             getNickname()
+
+            // 로그아웃 상태에서 로그아웃 버튼 숨기기
+            // 로그인 상태에서 회원가입, 로그인 숨기기
+            if (localStorage.getItem("token")) {
+                $('#signupButton').hide()
+                $('#loginButton').hide()
+            } else {
+                $('#logoutButton').hide()
+            }
         })
 
         function getArticles() {
@@ -124,9 +133,9 @@
             </div>
             <div class="col-sm">
                 <nav class="float-end">
-                    <button type="button" class="btn btn-dark" onclick="toSignup()">회원가입</button>
-                    <button type="button" class="btn btn-dark" onclick="toLogin()">로그인</button>
-                    <button type="button" class="btn btn-dark" onclick="logout()">로그아웃</button>
+                    <button type="button" class="btn btn-dark" onclick="toSignup()" id="signupButton">회원가입</button>
+                    <button type="button" class="btn btn-dark" onclick="toLogin()" id="loginButton">로그인</button>
+                    <button type="button" class="btn btn-dark" onclick="logout()" id="logoutButton">로그아웃</button>
                 </nav>
             </div>
         </div>
