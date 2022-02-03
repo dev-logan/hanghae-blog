@@ -75,7 +75,7 @@
 
             // 로그인 안 하면 좋아요 버튼 숨기기
             if (!localStorage.getItem("token")) {
-              $('#likeButton').hide()
+              // $('#likeButton').hide()
               $('#unlikeButton').hide()
             }
           },
@@ -263,6 +263,10 @@
       }
 
       function likeArticle() {
+        if (!localStorage.getItem("token")) {
+          alert('로그인 후 이용해주세요!')
+          return
+        }
         $.ajax({
           type: "POST",
           url: '/api/likes',
