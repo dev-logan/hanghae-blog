@@ -6,6 +6,11 @@
 http://54.180.108.6/
 
 ## 핵심 기능  Key Feature
+
+
+https://user-images.githubusercontent.com/43710866/152682634-6952290f-4ca4-4c34-a193-b3b86b272905.mp4
+
+
 - 전체 게시글 목록 조회
 - 글 작성시 비밀번호 입력
 - 글 수정/삭제 시 비밀번호 확인
